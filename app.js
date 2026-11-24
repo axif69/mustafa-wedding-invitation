@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mainInvitation = document.getElementById('mainInvitation');
   const audioToggle = document.getElementById('audioToggle');
   const reopenDoorBtn = document.getElementById('reopenDoorBtn');
+  const weddingAudio = document.getElementById('weddingAudio');
 
   // View Switchers
   const btnShowInteractive = document.getElementById('btnShowInteractive');
@@ -104,31 +105,54 @@ document.addEventListener('DOMContentLoaded', () => {
     clickOsc.stop(time + 0.06);
   }
 
-  // Soft Royal Indian Wedding Tanpura & Ambient Flute Harmonics
+  // Authentic Islamic Wedding Background Music Player
   function startRoyalMelody() {
-    if (!audioCtx) initAudioContext();
-    if (isMusicPlaying) return;
-
     isMusicPlaying = true;
     audioToggle.classList.add('playing');
 
-    // Tanpura Drone Root (Sa & Pa in Indian classical music: D & A notes)
-    const droneRoot = 146.83; // D3
-    const droneFifth = 220.00; // A3
+    if (weddingAudio) {
+      weddingAudio.volume = 0.65;
+      const playPromise = weddingAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Fallback to synthesized melody if browser requires separate gesture
+          fallbackSynthesizer();
+        });
+      }
+    } else {
+      fallbackSynthesizer();
+    }
+  }
 
+  function stopRoyalMelody() {
+    isMusicPlaying = false;
+    audioToggle.classList.remove('playing');
+    if (weddingAudio) {
+      weddingAudio.pause();
+    }
+    if (musicInterval) {
+      clearInterval(musicInterval);
+      musicInterval = null;
+    }
+  }
+
+  function fallbackSynthesizer() {
+    if (!audioCtx) initAudioContext();
+    const droneRoot = 146.83;
+    const droneFifth = 220.00;
     playDronePad(droneRoot);
     playDronePad(droneFifth);
 
-    // Rhythmic gentle melody notes (Raag Yaman / Bhairavi wedding notes)
     const notes = [293.66, 329.63, 369.99, 440.00, 493.88, 554.37, 587.33];
     let noteIdx = 0;
-
-    musicInterval = setInterval(() => {
-      if (!isMusicPlaying) return;
-      const note = notes[noteIdx % notes.length];
-      playShehnaiNote(note);
-      noteIdx = (noteIdx + Math.floor(Math.random() * 3) + 1);
-    }, 1800);
+    if (!musicInterval) {
+      musicInterval = setInterval(() => {
+        if (!isMusicPlaying) return;
+        const note = notes[noteIdx % notes.length];
+        playShehnaiNote(note);
+        noteIdx = (noteIdx + Math.floor(Math.random() * 3) + 1);
+      }, 1800);
+    }
   }
 
   function playDronePad(freq) {
@@ -164,15 +188,6 @@ document.addEventListener('DOMContentLoaded', () => {
     gain.connect(audioCtx.destination);
     osc.start(now);
     osc.stop(now + 1.6);
-  }
-
-  function stopRoyalMelody() {
-    isMusicPlaying = false;
-    audioToggle.classList.remove('playing');
-    if (musicInterval) {
-      clearInterval(musicInterval);
-      musicInterval = null;
-    }
   }
 
   audioToggle.addEventListener('click', () => {

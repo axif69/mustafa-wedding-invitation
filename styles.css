@@ -1089,11 +1089,25 @@ html, body {
   font-weight: 600;
 }
 
-.time-details .gents-time {
-  display: block;
+.single-line-time {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.single-line-time .ladies-time {
+  white-space: nowrap;
+  color: var(--text-dark);
+}
+
+.single-line-time .gents-time {
+  display: inline-block !important;
+  white-space: nowrap;
   color: #3b2806;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .venue-name {
