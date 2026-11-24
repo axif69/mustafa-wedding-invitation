@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Wedding Invitation | Mustafa & Zainab - 19th January 2027</title>
+  
+  <!-- Open Graph / WhatsApp Preview Meta Tags -->
+  <meta property="og:title" content="Wedding Invitation: Mustafa & Zainab">
+  <meta property="og:description" content="Cordially invite you to the auspicious wedding celebration on Tuesday, 19th January 2027 at Hussaini Masjid Sahen, Bhopal. Tap to open the invitation.">
+  <meta property="og:image" content="assets/card_cover.jpg">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#d4af37">
+
+  <!-- Google Fonts: Royal Calligraphy & Classic Serifs -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Marcellus&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Floating Ambient Particles Canvas (Rose petals & gold dust) -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- Audio Control Button -->
+  <button id="audioToggle" class="floating-audio-btn" aria-label="Toggle Background Music">
+    <i class="fa-solid fa-volume-high"></i>
+    <span class="audio-waves">
+      <span></span><span></span><span></span>
+    </span>
+  </button>
+
+  <!-- ========================================================
+       PHASE 1: THE ROYAL LOCKED PALACE DOOR
+  ======================================================== -->
+  <div id="doorOverlay" class="door-overlay">
+    <!-- Ambient Lantern Glows -->
+    <div class="lantern lantern-left"><div class="lantern-flame"></div></div>
+    <div class="lantern lantern-right"><div class="lantern-flame"></div></div>
+
+    <div class="arch-frame">
+      <div class="palace-crest">
+        <span class="arabic-786">﷽</span>
+        <div class="crest-title">ROYAL WEDDING INVITATION</div>
+        <div class="crest-names">Mustafa & Zainab</div>
+      </div>
+
+      <!-- 3D Door Portal -->
+      <div class="door-portal">
+        <!-- Left Door Leaf -->
+        <div class="door-leaf door-left" id="doorLeft">
+          <div class="door-panel">
+            <div class="arabesque-pattern"></div>
+            <div class="gold-filigree-top"></div>
+            <div class="door-studded-strip"></div>
+            <div class="inner-carving"></div>
+            <div class="gold-filigree-bottom"></div>
+          </div>
+        </div>
+
+        <!-- Right Door Leaf -->
+        <div class="door-leaf door-right" id="doorRight">
+          <div class="door-panel">
+            <div class="arabesque-pattern"></div>
+            <div class="gold-filigree-top"></div>
+            <div class="door-studded-strip"></div>
+            <div class="inner-carving"></div>
+            <div class="gold-filigree-bottom"></div>
+          </div>
+        </div>
+
+        <!-- Center Door Seam and Knocker -->
+        <div class="knocker-wrapper" id="knockerWrapper">
+          <div class="door-lock-plate"></div>
+          <div class="knocker-mount"></div>
+          <div class="knocker-ring" id="knockerRing">
+            <div class="knocker-handle"></div>
+          </div>
+          <div class="knocker-strike-plate"></div>
+
+          <!-- Knock Prompt -->
+          <div class="knock-instruction" id="knockPrompt">
+            <div class="finger-tap"><i class="fa-solid fa-hand-pointer"></i></div>
+            <span class="pulse-text">Please Knock to Enter</span>
+            <span class="sub-pulse">Tap on the door</span>
+          </div>
+        </div>
+
+        <!-- Heavenly Light Inside (seen when doors open) -->
+        <div class="sanctum-glow" id="sanctumGlow"></div>
+      </div>
+
+      <div class="arch-bottom-pedestal"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       PHASE 2: THE MAIN INVITATION CONTENT
+  ======================================================== -->
+  <main id="mainInvitation" class="main-invitation-container hidden">
+
+    <!-- Sticky Navigation / Action Bar -->
+    <header class="top-ribbon">
+      <div class="ribbon-content">
+        <span class="ribbon-bismillah">786</span>
+        <span class="ribbon-text">Wedding of Mustafa & Zainab</span>
+        <button id="reopenDoorBtn" class="ribbon-btn" title="Knock on door again">
+          <i class="fa-solid fa-door-closed"></i> Knock Again
+        </button>
+      </div>
+    </header>
+
+    <!-- Guest Personalization Banner -->
+    <section class="guest-welcome-card" id="guestBanner">
+      <div class="guest-inner">
+        <div class="guest-tag"><i class="fa-solid fa-envelope-open-text"></i> Especially Invited</div>
+        <h2 class="guest-name" id="displayGuestName">Respected Guest & Family</h2>
+        <p class="guest-msg">We seek the honor of your presence and blessings on this blessed occasion.</p>
+        
+        <div class="custom-link-box">
+          <button id="openPersonalizeModal" class="btn-sm-gold">
+            <i class="fa-solid fa-pen-fancy"></i> Create Invitation For Your Family / Friends
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Countdown Timer -->
+    <section class="countdown-section">
+      <div class="countdown-header">
+        <span class="ornament-leaf">❦</span>
+        <span>COUNTDOWN TO THE AUSPICIOUS DAY</span>
+        <span class="ornament-leaf">❦</span>
+      </div>
+      <div class="countdown-display" id="countdownGrid">
+        <div class="time-block">
+          <span class="time-num" id="cdDays">00</span>
+          <span class="time-label">DAYS</span>
+        </div>
+        <div class="time-sep">:</div>
+        <div class="time-block">
+          <span class="time-num" id="cdHours">00</span>
+          <span class="time-label">HOURS</span>
+        </div>
+        <div class="time-sep">:</div>
+        <div class="time-block">
+          <span class="time-num" id="cdMinutes">00</span>
+          <span class="time-label">MINUTES</span>
+        </div>
+        <div class="time-sep">:</div>
+        <div class="time-block">
+          <span class="time-num" id="cdSeconds">00</span>
+          <span class="time-label">SECONDS</span>
+        </div>
+      </div>
+      <div class="auspicious-date-pill">
+        <i class="fa-regular fa-calendar-check"></i> Tuesday, 19th January 2027 (12 Shaban 1448 H)
+      </div>
+    </section>
+
+    <!-- Card View Switcher (Interactive Scroll / Original Card Art) -->
+    <div class="view-switcher-bar">
+      <button class="switch-btn active" id="btnShowInteractive">
+        <i class="fa-solid fa-scroll"></i> Interactive Card
+      </button>
+      <button class="switch-btn" id="btnShowOriginal">
+        <i class="fa-solid fa-image"></i> Original Printed Cards
+      </button>
+    </div>
+
+    <!-- VIEW 1: HIGH-FIDELITY DIGITAL SCROLL -->
+    <div id="interactiveCardView" class="cards-wrapper">
+
+      <!-- =================== CARD 1: THE WEDDING COVER =================== -->
+      <article class="royal-card card-envelope">
+        <div class="card-border-ornament">
+          <div class="corner corner-tl"></div>
+          <div class="corner corner-tr"></div>
+          <div class="corner corner-bl"></div>
+          <div class="corner corner-br"></div>
+
+          <div class="envelope-inner">
+            <div class="cover-header">
+              <span class="fancy-title-sub">Wedding</span>
+              <h1 class="fancy-title-main">INVITATION</h1>
+            </div>
+
+            <div class="ornate-separator">
+              <span class="line"></span>
+              <span class="gem">✦ ❖ ✦</span>
+              <span class="line"></span>
+            </div>
+
+            <!-- Couple Monogram / Names -->
+            <div class="couple-lockup">
+              <div class="groom-name-cover">Mustafa</div>
+              <div class="weds-cover">weds</div>
+              <div class="bride-name-cover">Zainab</div>
+            </div>
+
+            <div class="cover-date-highlight">
+              On Tuesday 19th January 2027
+            </div>
+
+            <!-- Hand-written Style Guest Invitation Box -->
+            <div class="handwritten-guest-card">
+              <div class="to-label">To,</div>
+              <div class="to-guest-line" id="coverGuestName">Respected Guest & Family</div>
+              <div class="decorative-rule"></div>
+              <div class="decorative-rule"></div>
+            </div>
+
+            <!-- Sender Footer Info -->
+            <div class="cover-footer">
+              <div class="from-label">From:</div>
+              <div class="from-name">Shabbir Husain Alotwala</div>
+              <div class="from-contact">
+                <a href="tel:+917869486663"><i class="fa-solid fa-phone"></i> 7869486663</a>
+                <span class="sep">•</span>
+                <a href="tel:+917089654647"><i class="fa-solid fa-phone"></i> 70896 54647</a>
+              </div>
+              <div class="from-address">
+                <i class="fa-solid fa-location-dot"></i> Old saifiya college road beldaar pura bhopal
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="scroll-down-hint">
+        <span>Scroll down for Nikah & Reception Details</span>
+        <i class="fa-solid fa-angles-down bounce-icon"></i>
+      </div>
+
+      <!-- =================== CARD 2: MAIN NIKAH & PROGRAMME =================== -->
+      <article class="royal-card card-main-invitation">
+        <div class="card-border-ornament">
+          <div class="corner corner-tl"></div>
+          <div class="corner corner-tr"></div>
+          <div class="corner corner-bl"></div>
+          <div class="corner corner-br"></div>
+
+          <div class="main-inner">
+            <!-- 786 Calligraphy -->
+            <div class="bismillah-header">786</div>
+
+            <!-- Duas & Raza Mubarak -->
+            <p class="blessings-text">
+              By the Grace of Allah,<br>
+              with the Profound Blessings of<br>
+              <strong>Waseela-e-Panjatan Pak (A.S.)</strong><br>
+              and <strong>Hazrat Abbas Alamdar (A.S.)</strong><br>
+              and with the Kind Blessings of H.H.<br>
+              <span class="holy-title">Syedna Mufaddal Saifuddin (T.U.S.)</span>
+            </p>
+
+            <div class="parents-invitation">
+              <div class="host-names">Mrs. & Mr. Shabbir Hussain Alotwala</div>
+              <p class="invite-line">
+                Cordially Extend a Heartfelt Invitation to the<br>
+                Wedding of Their Beloved son
+              </p>
+            </div>
+
+            <!-- Groom Details -->
+            <div class="person-box groom-box">
+              <h2 class="person-name">Mustafa</h2>
+              <div class="parentage">(S/o. : Zahra - Shabbir Husain Alot wala)</div>
+            </div>
+
+            <div class="weds-badge">
+              <span class="weds-line"></span>
+              <span class="weds-text">weds</span>
+              <span class="weds-line"></span>
+            </div>
+
+            <!-- Bride Details -->
+            <div class="person-box bride-box">
+              <h2 class="person-name">Zainab</h2>
+              <div class="parentage">(D/o. : Fatema - Quresh Bhai Salumber wala)</div>
+            </div>
+
+            <!-- Nikah Dast Mubarak -->
+            <div class="nikah-sanctum">
+              <i class="fa-solid fa-mosque"></i>
+              <p class="nikah-text">
+                Nikah held on the Dast Mubarak of<br>
+                <span>Aqa Mola Syedna Aali qadr Mufaddal Saifuddin (TUS)</span>
+              </p>
+            </div>
+
+            <!-- Programme Details -->
+            <section class="programme-box">
+              <h3 class="programme-title">Programme (In’Sha Allah)</h3>
+              
+              <div class="date-row">
+                <i class="fa-solid fa-calendar-days"></i>
+                <div class="date-details">
+                  <div class="primary-date">On Tuesday 19th January 2027</div>
+                  <div class="hijri-date">i.e. 12 Shaban Al-Karim 1448 H</div>
+                </div>
+              </div>
+
+              <div class="time-row">
+                <i class="fa-solid fa-clock"></i>
+                <div class="time-details">
+                  <span>Ladies : ..............</span>
+                  <span class="gents-time">Gents : 8.00 p.m.</span>
+                </div>
+              </div>
+
+              <div class="venue-row">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <div class="venue-details">
+                  <div class="venue-name">HUSSAINI MASJID SAHEN</div>
+                  <div class="venue-address">Malipura, Peergate, Bhopal (M.P.)</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- RSVP & Family Honors -->
+            <div class="rsvp-grid">
+              <div class="rsvp-col">
+                <div class="section-tag">R.S.V.P.</div>
+                <div class="rsvp-name">Insiya - Hatim Ali Alot wala</div>
+                <div class="rsvp-name">Saifuddin Shabbir Hussain Alot wala</div>
+              </div>
+
+              <div class="rsvp-col wbcf-col">
+                <div class="section-tag">W.B.C.F.</div>
+                <div class="family-names">Bahen, Behnoi,</div>
+                <div class="family-names">All Relatives & Friends</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- VIEW 2: ORIGINAL PRINTED CARDS (With 2027 Retouch) -->
+    <div id="originalCardView" class="original-cards-gallery hidden">
+      <div class="gallery-card">
+        <div class="gallery-badge">Front Invitation Card (2027)</div>
+        <img src="assets/card_cover.jpg" alt="Wedding Invitation Cover - Mustafa & Zainab" class="original-img" loading="lazy">
+        <a href="assets/card_cover.jpg" download="Mustafa_Zainab_Invitation_Cover.jpg" class="btn-download">
+          <i class="fa-solid fa-download"></i> Download Cover Image
+        </a>
+      </div>
+
+      <div class="gallery-card">
+        <div class="gallery-badge">Main Nikah Details Card (2027)</div>
+        <img src="assets/card_inside.jpg" alt="Wedding Invitation Main - Mustafa & Zainab" class="original-img" loading="lazy">
+        <a href="assets/card_inside.jpg" download="Mustafa_Zainab_Nikah_Invitation.jpg" class="btn-download">
+          <i class="fa-solid fa-download"></i> Download Nikah Card Image
+        </a>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         ACTION HUB (Calendar, Directions, RSVP, Share)
+    ======================================================== -->
+    <section class="action-hub-section">
+      <h3 class="action-hub-title">Guest Convenience Hub</h3>
+      <div class="actions-grid">
+        <!-- Add to Calendar -->
+        <a id="addToCalendarBtn" href="#" class="action-card calendar-action" target="_blank">
+          <div class="action-icon"><i class="fa-solid fa-calendar-plus"></i></div>
+          <div class="action-text">
+            <strong>Add to Calendar</strong>
+            <span>Tuesday, 19 Jan 2027</span>
+          </div>
+        </a>
+
+        <!-- Google Maps Venue -->
+        <a href="https://maps.google.com/?q=Hussaini+Masjid,+Peergate,+Bhopal,+Madhya+Pradesh" target="_blank" class="action-card map-action">
+          <div class="action-icon"><i class="fa-solid fa-location-arrow"></i></div>
+          <div class="action-text">
+            <strong>Venue Directions</strong>
+            <span>Hussaini Masjid, Bhopal</span>
+          </div>
+        </a>
+
+        <!-- WhatsApp RSVP -->
+        <a id="whatsappRsvpBtn" href="https://wa.me/917869486663?text=Mubarak!%20We%20received%20the%20wedding%20invitation%20of%20Mustafa%20%26%20Zainab.%20We%20are%20pleased%20to%20confirm%20our%20presence." target="_blank" class="action-card rsvp-action">
+          <div class="action-icon"><i class="fa-brands fa-whatsapp"></i></div>
+          <div class="action-text">
+            <strong>Send RSVP Mubarak</strong>
+            <span>Confirm on WhatsApp</span>
+          </div>
+        </a>
+
+        <!-- Share Invitation -->
+        <button id="shareInvitationBtn" class="action-card share-action">
+          <div class="action-icon"><i class="fa-solid fa-share-nodes"></i></div>
+          <div class="action-text">
+            <strong>Share Invitation</strong>
+            <span>Send to Family on WhatsApp</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="invitation-footer">
+      <div class="dua-blessing">
+        "May Allah bless this union with love, joy, barakah, and prosperity."
+      </div>
+      <div class="footer-names">With warm regards from the Alotwala & Salumberwala Families</div>
+      <div class="gift-credit">Crafted with love as a wedding gift for Mustafa & Zainab</div>
+    </footer>
+
+  </main>
+
+  <!-- ========================================================
+       MODAL: CUSTOMIZE GUEST NAME & LINK GENERATOR
+  ======================================================== -->
+  <div id="guestModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <button id="closeModalBtn" class="modal-close">&times;</button>
+      <div class="modal-header">
+        <i class="fa-solid fa-signature modal-icon"></i>
+        <h3>Personalize Guest Invitation</h3>
+        <p>Type your guest's name below to create a personalized WhatsApp invitation link with their name printed on the card!</p>
+      </div>
+
+      <div class="modal-body">
+        <label for="customGuestInput">Guest / Family Name:</label>
+        <input type="text" id="customGuestInput" placeholder="e.g. Rashid Bhai & Family" class="custom-input">
+        
+        <div class="preview-badge">
+          Card will say: <strong id="modalPreviewName">Respected Guest & Family</strong>
+        </div>
+
+        <div class="modal-actions">
+          <button id="copyCustomLinkBtn" class="btn-gold-action">
+            <i class="fa-regular fa-copy"></i> Copy Personalized Link
+          </button>
+          <button id="sendDirectWhatsAppBtn" class="btn-whatsapp-action">
+            <i class="fa-brands fa-whatsapp"></i> Share on WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toastNotification" class="toast hidden">Link copied to clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
